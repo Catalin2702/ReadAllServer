@@ -32,7 +32,7 @@ async def server(websocket, path):
 			except json.decoder.JSONDecodeError:
 				pass
 
-	except websockets.exceptions.ConnectionClosed:
+	except websockets.WebSocketException.ConnectionClosed:
 		pass
 
 
