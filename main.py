@@ -2,7 +2,6 @@ import asyncio
 import websockets
 import json
 import requests
-from urllib.parse import unquote
 
 url = 'http://192.168.1.3:8085/api/'
 
