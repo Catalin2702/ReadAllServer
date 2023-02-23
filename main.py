@@ -1,17 +1,7 @@
 import asyncio
 import websockets
 import json
-import requests
-
-url = 'http://192.168.1.3:8085/api/'
-
-request_map = {
-	'search': url + 'search',
-	'getChapter': url + 'get_chapter',
-
-	'getNovelContent': url + 'get_content/novel',
-	'getMangaContent': url + 'get_content/manga',
-}
+from mapping import api_url, api_request_map, actions_map
 
 
 async def server(websocket, path):
@@ -20,19 +10,22 @@ async def server(websocket, path):
 			message = await websocket.recv()
 			try:
 				message = json.loads(message)
-				if message.get('action', False) and message.get('query', False):
-					content_type = '&content_type=' + message.get('contentType') if message.get('contentType') else ''
-					url_req = request_map.get(message.get('action')) + '?query=' + message.get('query') + content_type
-					response = requests.get(url_req)
-					if response.status_code == 200:
-						await websocket.send(response.text)
+				if message.get('action'):
+					if message['action'] in api_request_map:
+						message['url'] = api_url
+						message['api_request_map'] = api_request_map
+						response = actions_map[message['action']](message)
+						if response:
+							await websocket.send(response)
+						else:
+							await websocket.send('')
 				else:
 					print('Richiesta errata')
 
 			except json.decoder.JSONDecodeError:
 				pass
 
-	except websockets.WebSocketException.ConnectionClosed:
+	except websockets.exceptions.ConnectionClosed:
 		pass
 
 

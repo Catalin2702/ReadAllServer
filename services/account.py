@@ -1,5 +1,5 @@
 from MySQL import MySQL
-from constants import ERROR_MESSAGE
+from utils import ERROR_MESSAGE
 
 
 class Account:
