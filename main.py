@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+from websockets.exceptions import ConnectionClosed
 import json
 from mapping import api_url, api_request_map, actions_map
 
@@ -25,7 +26,7 @@ async def server(websocket, path):
 			except json.decoder.JSONDecodeError:
 				pass
 
-	except websockets.exceptions.ConnectionClosed:
+	except ConnectionClosed:
 		pass
 
 
