@@ -3,6 +3,10 @@ import websockets
 from websockets.exceptions import ConnectionClosed
 import json
 from mapping import api_url, api_request_map, actions_map
+from services import Account
+
+
+account = Account
 
 
 async def server(websocket, path):
@@ -13,6 +17,7 @@ async def server(websocket, path):
 				kwargs = json.loads(message)
 				kwargs['url'] = api_url
 				kwargs['api_request_map'] = api_request_map
+				kwargs['account'] = account
 				response = actions_map[kwargs.get('action', 'default')](kwargs)
 				if response:
 					await websocket.send(response)
@@ -26,7 +31,7 @@ async def server(websocket, path):
 		pass
 
 
-start = websockets.serve(server, "192.168.1.3", 8000)
+start = websockets.serve(server, "192.168.1.10", 8000)
 
 asyncio.get_event_loop().run_until_complete(start)
 asyncio.get_event_loop().run_forever()

@@ -18,9 +18,21 @@ class MySQL:
 
 	def __exec_query(self, query):
 		conn = mysql.connector.connect(**self.__config)
-		results = conn.execute(query)
+		cursor = conn.cursor()
+		cursor.execute(query)
+		column_names = [i[0] for i in cursor.description]
+
+		results = cursor.fetchall()
+
+		rows = []
+		for row in results:
+			row_dict = {}
+			for i, column_name in enumerate(column_names):
+				row_dict[column_name] = row[i]
+			rows.append(row_dict)
+
 		conn.close()
-		return results
+		return rows
 
 	def query(self, query):
 		return self.__exec_query(query)

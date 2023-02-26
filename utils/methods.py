@@ -1,7 +1,10 @@
+import json
+
 import requests
 
 
 def default(kwargs):
+	print(kwargs)
 	return {}
 
 
@@ -21,7 +24,16 @@ def api_service(kwargs):
 
 
 def sign_in(kwargs):
-	pass
+	account = kwargs['account'](kwargs)
+	logged = account.sign_in()
+	response = {
+		'signIn': {
+			'email': account.get_email() if logged else '',
+			'username': account.get_username() if logged else '',
+			'token': account.get_token() if logged else ''
+		}
+	}
+	return json.dumps(response)
 
 
 def register(kwargs):

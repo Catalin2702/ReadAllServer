@@ -15,7 +15,7 @@ actions_map = {
 	'getChapter': api_service,
 	'getNovelContent': api_service,
 	'getMangaContent': api_service,
-	'sign_in': sign_in,
+	'signIn': sign_in,
 	'register': register,
 	'default': default
 }
