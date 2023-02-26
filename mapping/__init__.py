@@ -1,4 +1,4 @@
-from utils import api_service, sign_in, register
+from utils import api_service, sign_in, register, default
 
 
 api_url = 'http://192.168.1.3:8085/api/'
@@ -17,4 +17,5 @@ actions_map = {
 	'getMangaContent': api_service,
 	'sign_in': sign_in,
 	'register': register,
+	'default': default
 }

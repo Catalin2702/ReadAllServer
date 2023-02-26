@@ -10,18 +10,14 @@ async def server(websocket, path):
 		while True:
 			message = await websocket.recv()
 			try:
-				message = json.loads(message)
-				if message.get('action'):
-					if message['action'] in api_request_map:
-						message['url'] = api_url
-						message['api_request_map'] = api_request_map
-						response = actions_map[message['action']](message)
-						if response:
-							await websocket.send(response)
-						else:
-							await websocket.send('')
+				kwargs = json.loads(message)
+				kwargs['url'] = api_url
+				kwargs['api_request_map'] = api_request_map
+				response = actions_map[kwargs.get('action', 'default')](kwargs)
+				if response:
+					await websocket.send(response)
 				else:
-					print('Richiesta errata')
+					await websocket.send('')
 
 			except json.decoder.JSONDecodeError:
 				pass

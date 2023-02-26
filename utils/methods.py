@@ -1,6 +1,10 @@
 import requests
 
 
+def default(kwargs):
+	return {}
+
+
 def api_service(kwargs):
 	url = kwargs.get('url')
 	action = kwargs.get('action')
