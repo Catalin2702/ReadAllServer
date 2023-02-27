@@ -19,7 +19,7 @@ def api_service(kwargs):
 	if url and action and request and all(item for item in data.items()):
 		url_request = url + request + '&'.join([f"{key}={value}" for key, value in data.items()])
 		response = requests.get(url_request)
-		return response.text if response.status_code == 200 else {}
+		return {'results': response.text} if response.status_code == 200 else {}
 	return {}
 
 
@@ -30,7 +30,8 @@ def sign_in(kwargs):
 		'signIn': {
 			'email': account.get_email() if logged else '',
 			'username': account.get_username() if logged else '',
-			'token': account.get_token() if logged else ''
+			'token': account.get_token() if logged else '',
+			'logged': logged
 		}
 	}
 	return json.dumps(response)

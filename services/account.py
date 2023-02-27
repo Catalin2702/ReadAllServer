@@ -46,8 +46,8 @@ class Account:
 			u.email_user as email
 		from users u
 		join secrets s on u.id_user = s.id_user
-		where u.username_user = '{user}' and s.pw_secret = '{password}'
-		""".format(user=self.__username, password=self.__password)
+		where u.username_user = '{user}' and (s.pw_secret = '{password}' or s.token_secret = '{token}')
+		""".format(user=self.__username, password=self.__password, token=self.__token)
 
 		results = MySQL().query(query)
 
