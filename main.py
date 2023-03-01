@@ -20,7 +20,7 @@ async def server(websocket, path):
 				kwargs['account'] = account
 				response = actions_map[kwargs.get('action', 'default')](kwargs)
 				if response:
-					await websocket.send(response)
+					await websocket.send(json.dumps(response))
 				else:
 					await websocket.send('')
 
@@ -31,7 +31,7 @@ async def server(websocket, path):
 		pass
 
 
-start = websockets.serve(server, "192.168.1.10", 8000)
+start = websockets.serve(server, "localhost", 8000)
 
 asyncio.get_event_loop().run_until_complete(start)
 asyncio.get_event_loop().run_forever()

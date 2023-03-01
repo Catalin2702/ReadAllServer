@@ -34,7 +34,7 @@ def sign_in(kwargs):
 			'logged': logged
 		}
 	}
-	return json.dumps(response)
+	return response
 
 
 def register(kwargs):
